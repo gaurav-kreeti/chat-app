@@ -1,0 +1,27 @@
+.messages::-webkit-scrollbar{
+    width: 4px;
+}
+.messages::-webkit-scrollbar-thumb {
+    background-color: #4a5568; 
+    border-radius: 8px;
+}
+
+.messages::-webkit-scrollbar-track {
+    display:none;
+    background-color: #cbd5e0;
+    border-radius:8px;
+}
+textarea::-webkit-scrollbar{
+    width: 4px;
+    height: 4px;
+}
+textarea::-webkit-scrollbar-thumb {
+    background-color: #4a5568; /* Change the color as needed */
+    border-radius: 2px;
+}
+
+height::-webkit-scrollbar-track {
+    display:none;
+    background-color: #cbd5e0; /* Change the color as needed */
+    border-radius: 8px;
+}
