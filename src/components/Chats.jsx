@@ -25,6 +25,14 @@ const Chats = () => {
   console.log(chats);
   
   const handleSelect = async (u) => {
+    if(screen.width<=640){
+      document.querySelector(".chat").style.display = "flex";
+      document.querySelector(".chats").style.display = "none";
+      document.querySelector(".search").style.display = "none";
+      document.querySelector(".chat-container").style.display = "flex";
+    }
+    
+    // console.log(document.querySelector(".chats").offSetWidth);
     dispatch({ type: "CHANGE_USER", payload: u[1].userInfo });
     await updateDoc(doc(db,"userChats",currentUser.uid),{
       [u[0] + ".count"]: 0,
@@ -48,11 +56,11 @@ const Chats = () => {
     return "";
   }
   return (
-    <div className="chats">
+    <div className="chats flex flex-col">
       <h1 className="pt-2 text-center">Your Chats</h1>
       {Object.entries(chats)?.sort((a, b) => b[1].date - a[1].date).map((chat) => (
         <div
-          className="flex items-center cursor-pointer mt-2"
+          className="flex items-center cursor-pointer mt-2 hover:bg-[#2b2d31]"
           key={chat[0]}
           onClick={() => handleSelect(chat)}
         >
@@ -69,12 +77,62 @@ const Chats = () => {
           {
           (data.chatId =="null" || data.chatId != chat[0]) && chat[1].count !=0 &&
           <div className="ml-auto mr-2">
-          <span className="text-sm">{chat[1].count}</span>  
+          <span className="text-sm rounded-sm p-1 bg-red-600">{chat[1].count}</span>  
           </div>
           }
         </div>
       ))}
+      <div
+          className="flex items-center cursor-pointer mt-2 hover:bg-[#2b2d31]"
+          // key={chat[0]}
+          // onClick={() => handleSelect(chat)}
+        >
+          <img width="50px" src="src/assets/profile.png" alt="" />
+        </div>
+        <div
+          className="flex items-center cursor-pointer mt-2 hover:bg-[#2b2d31]"
+          // key={chat[0]}
+          // onClick={() => handleSelect(chat)}
+        >
+          <img width="50px" src="src/assets/profile.png" alt="" />
+        </div>
+        <div
+          className="flex items-center cursor-pointer mt-2 hover:bg-[#2b2d31]"
+          // key={chat[0]}
+          // onClick={() => handleSelect(chat)}
+        >
+          <img width="50px" src="src/assets/profile.png" alt="" />
+        </div>
+        <div
+          className="flex items-center cursor-pointer mt-2 hover:bg-[#2b2d31]"
+          // key={chat[0]}
+          // onClick={() => handleSelect(chat)}
+        >
+          <img width="50px" src="src/assets/profile.png" alt="" />
+        </div>
+        <div
+          className="flex items-center cursor-pointer mt-2 hover:bg-[#2b2d31]"
+          // key={chat[0]}
+          // onClick={() => handleSelect(chat)}
+        >
+          <img width="50px" src="src/assets/profile.png" alt="" />
+        </div>
+        <div
+          className="flex items-center cursor-pointer mt-2 hover:bg-[#2b2d31]"
+          // key={chat[0]}
+          // onClick={() => handleSelect(chat)}
+        >
+          <img width="50px" src="src/assets/profile.png" alt="" />
+        </div>
+        <div
+          className="flex items-center cursor-pointer mt-2 hover:bg-[#2b2d31]"
+          // key={chat[0]}
+          // onClick={() => handleSelect(chat)}
+        >
+          <img width="50px" src="src/assets/profile.png" alt="" />
+        </div>
     </div>
+    
   );
 };
 

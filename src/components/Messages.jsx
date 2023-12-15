@@ -22,7 +22,7 @@ const Messages = () => {
   console.log(messages)
 
   return (
-    <div className="max-h-[70vh] min-h-[470px] messages overflow-y-scroll ">
+    <div className="messages overflow-y-scroll">
       <h1>hello</h1>
      
       {messages.map((m) => (

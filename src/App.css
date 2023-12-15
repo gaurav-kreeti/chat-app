@@ -1,3 +1,9 @@
+/* *{
+    background-color: black;
+} */
+html{
+    background-color: #1e1f22;
+}
 .messages::-webkit-scrollbar{
     width: 4px;
 }
@@ -24,4 +30,22 @@ height::-webkit-scrollbar-track {
     display:none;
     background-color: #cbd5e0; /* Change the color as needed */
     border-radius: 8px;
+}
+.chat-search-container::-webkit-scrollbar{
+    width: 4px;
+    height: 4px;
+}
+.chat-search-container::-webkit-scrollbar-thumb {
+    background-color: #4a5568; /* Change the color as needed */
+    border-radius: 2px;
+}
+.chat{
+    max-height: calc(80vh - 8px);
+}
+.messages{
+    max-height: calc(80vh - 82px);
+    min-height: calc(80vh - 82px);
+}
+dialog::backdrop{
+    backdrop-filter: blur(2px);
 }

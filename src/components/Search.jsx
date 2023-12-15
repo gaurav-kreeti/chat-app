@@ -1,12 +1,13 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
-import { collection, query, where, getDocs, doc, getDoc,setDoc,updateDoc,serverTimestamp} from "firebase/firestore";
+import { collection, query, where, getDocs, doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 
 const Search = () => {
 
   const [username, setUsername] = useState("");
   const [users, setUsers] = useState([]);
+  const [err,setErr] = useState("");
 
   const { currentUser } = useContext(AuthContext)
 
@@ -20,6 +21,8 @@ const Search = () => {
         arr.push(doc.data())
       });
       setUsers(arr);
+      if(arr.length == 0) setErr("No user found");
+      else setErr("");  
     }
     catch (error) {
       console.log(error);
@@ -38,7 +41,7 @@ const Search = () => {
     try {
       const res = await getDoc(doc(db, "chats", combinedId));
 
-       console.log(res.exists())
+      console.log(res.exists())
       if (!res.exists()) {
         //create a chat in chats collection
         await setDoc(doc(db, "chats", combinedId), { messages: [] });
@@ -53,9 +56,9 @@ const Search = () => {
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
-        console.log("I am doc 1"+user1)
+        console.log("I am doc 1" + user1)
 
-        const user2  = await updateDoc(doc(db, "userChats", user.uid), {
+        const user2 = await updateDoc(doc(db, "userChats", user.uid), {
           [combinedId + ".userInfo"]: {
             uid: currentUser.uid,
             displayName: currentUser.displayName,
@@ -63,41 +66,44 @@ const Search = () => {
           },
           [combinedId + ".date"]: serverTimestamp(),
         });
-        console.log("I am doc2"+user2)
+        console.log("I am doc2" + user2)
       }
     } catch (err) {
-      
+
     }
 
     setUsers([]);
     setUsername("");
-}
+    setErr("");
+  }
 
-return (
-  <div className="search  border-solid border-b-2  border-black">
-    <div className="searchForm">
-      <input
-      className="max-w-full border-0 outline-none"
-        type="textsearch"
-        placeholder="Find a user"
-        onKeyDown={handleKey}
-        onChange={(e) => setUsername(e.target.value)}
-        value={username}
-      />
-    </div>
-    {console.log(users)}
-    <div>
-      {users.map((user) => (
-        <div className="flex justify-center items-center cursor-pointer" key={user.id} onClick={() => handleSelect(user)}>
-          <img width="40px" src={user.photoURL} alt="" />
-          <div className="userChatInfo">
-            <span>{user.displayName}</span>
+  return (
+    <div className="search  border-solid border-b-2  border-black">
+      <div className="searchForm bg-[#2b2d31]">
+        <input
+          className="max-w-full border-0 outline-none bg-[#2b2d31]"
+          type="textsearch"
+          placeholder="Find a user"
+          onKeyDown={handleKey}
+          onChange={(e) => {setUsername(e.target.value)}}
+          value={username}
+        />
+      </div>
+      {console.log(users)}
+      <div>
+        {users.map((user) => (
+          <div className="flex items-center mt-2 hover:bg-[#2b2d31]" key={user.id}>
+            <img width="50px" src={user.photoURL} alt="" />
+            <div className="userChatInfo">
+              <span>{user.displayName}</span>
+            </div>
+            <i className="fa-solid fa-check ml-auto mr-2 cursor-pointer" onClick={() => handleSelect(user)}></i>
           </div>
-        </div>
-      ))}
+        ))}
+      </div>
+      {!err.length && <p>{err}</p> }
     </div>
-  </div>
-);
+  );
 }
 
 export default Search

@@ -35,7 +35,7 @@ const Input = () => {
     // Reset the height to default in case the user deletes text
     const messageContainer = document.querySelector(".messages")
     textarea.style.height = 'auto';
-    messageContainer.style.maxHeight = '70vh';
+    messageContainer.style.maxHeight = 'calc(80vh - 82px)';
 
     // Set the new height based on the scroll height
     textarea.style.height = `${textarea.scrollHeight}px`;
@@ -43,7 +43,7 @@ const Input = () => {
 
     // console.log(messageContainer.offsetHeight);
     // console.log(`old_height${messageContainer.offsetHeight}`);
-    messageContainer.style.maxHeight = `${messageContainer.offsetHeight - textarea.scrollHeight + 25}px`
+    messageContainer.style.maxHeight = `${messageContainer.offsetHeight - textarea.scrollHeight + 38}px`
     // console.log("new_height"+messageContainer.offsetHeight);
   };
   const handleIconClick = () => {
@@ -119,10 +119,10 @@ const Input = () => {
     setImg(null);
   };
   return (
-    <div className="input absolute bottom-0 w-[90%] flex items-center gap-2 justify-self-end">
-      <div className="max-h-[100px] bg-white flex gap-2 grow items-center border-solid border-2 border-black rounded-lg">
+    <div className="input absolute bottom-0 w-[90%] flex items-center gap-2 justify-self-end bg-[#1e1f22] pl-2 pr-2  rounded-lg">
+      <div className="max-h-[100px] flex gap-2 grow items-center rounded-lg bg-[#1e1f22]">
         <textarea
-          className="max-h-[90px] outline-none grow leading-4 rounded-lg p-1"
+          className="max-h-[90px] outline-none grow leading-4 rounded-lg p-1 bg-[#1e1f22]"
           type="text"
           style={{ resize: "none" }}
           placeholder="Type something..."
