@@ -1,16 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import { AuthContext } from "../context/AuthContext";
+import { ChatContext } from "../context/ChatContext";
 import { collection, query, where, getDocs, doc, getDoc, setDoc, updateDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebase";
 
-const Search = () => {
+const Search = (prop) => {
 
+  
   const [username, setUsername] = useState("");
   const [users, setUsers] = useState([]);
-  const [err,setErr] = useState("");
+  const [err, setErr] = useState("");
 
-  const { currentUser } = useContext(AuthContext)
-
+  const { currentUser } = useContext(AuthContext);
+  const { data,dispatch } = useContext(ChatContext);
   const handleSearch = async () => {
     const q = query(collection(db, "users"), where("displayName", "==", username));
     try {
@@ -21,8 +23,8 @@ const Search = () => {
         arr.push(doc.data())
       });
       setUsers(arr);
-      if(arr.length == 0) setErr("No user found");
-      else setErr("");  
+      if (arr.length == 0) setErr("No user found");
+      else setErr("");
     }
     catch (error) {
       console.log(error);
@@ -68,6 +70,13 @@ const Search = () => {
         });
         console.log("I am doc2" + user2)
       }
+      dispatch({ type: "CHANGE_USER", payload: user });
+      await updateDoc(doc(db,"userChats",currentUser.uid),{
+        [u[0] + ".count"]: 0,
+      })
+      await updateDoc(doc(db,"userChats",user.uid),{
+        [u[0] + ".count"]: 0,
+      })
     } catch (err) {
 
     }
@@ -76,6 +85,13 @@ const Search = () => {
     setUsername("");
     setErr("");
   }
+  const closeButton = document.querySelector(".close-search");
+  closeButton?.addEventListener("click", (e) => {
+    setUsers([]);
+    setUsername("");
+    setErr("");
+  });
+
 
   return (
     <div className="search  border-solid border-b-2  border-black">
@@ -85,23 +101,25 @@ const Search = () => {
           type="textsearch"
           placeholder="Find a user"
           onKeyDown={handleKey}
-          onChange={(e) => {setUsername(e.target.value)}}
+          onChange={(e) => { setUsername(e.target.value) }}
           value={username}
         />
       </div>
       {console.log(users)}
       <div>
+        {console.log(prop)}
         {users.map((user) => (
-          <div className="flex items-center mt-2 hover:bg-[#2b2d31]" key={user.id}>
+          <div className="flex items-center mt-2 hover:bg-[#2b2d31]" key={user.id} 
+          onClick={prop.from ?  null : () => handleSelect(user)}>
             <img width="50px" src={user.photoURL} alt="" />
             <div className="userChatInfo">
               <span>{user.displayName}</span>
             </div>
-            <i className="fa-solid fa-check ml-auto mr-2 cursor-pointer" onClick={() => handleSelect(user)}></i>
+            {prop?.from === "AddFriend" && <i className="fa-solid fa-check ml-auto mr-2 cursor-pointer" onClick={() => handleSelect(user)}></i> }
           </div>
         ))}
       </div>
-      {!err.length && <p>{err}</p> }
+      {!err.length && <p>{err}</p>}
     </div>
   );
 }

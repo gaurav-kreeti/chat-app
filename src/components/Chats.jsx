@@ -26,6 +26,7 @@ const Chats = () => {
   
   const handleSelect = async (u) => {
     if(screen.width<=640){
+      document.querySelector(".chat-search-container").style.display = "none";
       document.querySelector(".chat").style.display = "flex";
       document.querySelector(".chats").style.display = "none";
       document.querySelector(".search").style.display = "none";

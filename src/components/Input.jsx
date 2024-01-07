@@ -46,6 +46,9 @@ const Input = () => {
     messageContainer.style.maxHeight = `${messageContainer.offsetHeight - textarea.scrollHeight + 38}px`
     // console.log("new_height"+messageContainer.offsetHeight);
   };
+  const handleEnter = (e) => {
+    if(e.key === 'Enter') handleSend(); 
+  }
   const handleIconClick = () => {
     const file = document.getElementById("file");
     console.log(file)
@@ -127,6 +130,7 @@ const Input = () => {
           style={{ resize: "none" }}
           placeholder="Type something..."
           // onChange={(e) => setText(e.target.value)}
+          onKeyDown={handleEnter}
           onChange={handleChange}
           value={text}
         />
